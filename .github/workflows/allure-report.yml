@@ -1,56 +1,65 @@
-name: Allure Report
+name: Allure Testops
 
 on:
-  push:
-    branches-ignore:
-      - '!main'
+  workflow_dispatch:
+    inputs:
+      ALLURE_JOB_RUN_ID:
+        description: ALLURE_JOB_RUN_ID - service parameter (leave blank)
+        required: false
+      ALLURE_USERNAME:
+        description: ALLURE_USERNAME - service parameter (leave blank)
+        required: false
+      ENDPOINT:
+        description: Endpoint
+        required: false
+        default: demo.testops.cloud
+      BROWSER:
+        description: Browser
+        required: false
+        default: Opera
+      OS:
+        description: OS
+        required: false
+        default: macOS 
+
+env:
+  ALLURE_ENDPOINT: https://demo.testops.cloud/
+  ALLURE_PROJECT_ID: 1790
+  ALLURE_TOKEN: ${{ secrets.ALLURECHATALYANDEMO }}
+  ALLURE_JOB_RUN_ID: ${{ github.event.inputs.ALLURE_JOB_RUN_ID }}
+  ALLURE_TESTPLAN_PATH: "./testplan.json"
+  ALLURE_RESULTS: "allure-results"
 
 jobs:
-  autotests:
-    name: Run tests and generate Allure Report
+  autotests: 
+    name: Run tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
-      - name: Set up Python 3.x
-        uses: actions/setup-python@v2
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
-
+          python-version: '3.12'
+          
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-
-      - name: Check code style
-        if: always()
-        run: |
-          flake8
-
-      - name: Run Test
-        if: always()
-        run: pytest --alluredir=allure-results
-        continue-on-error: true
-
-      - name: Get Allure history
-        uses: actions/checkout@v3
-        if: always()
-        continue-on-error: true
+          
+      - name: Install allurectl
+        uses: allure-framework/setup-allurectl@v1
         with:
-          ref: gh-pages
-          path: gh-pages
-
-      - name: Allure Report action from marketplace
-        uses: simple-elf/allure-report-action@v1.7
-        if: always()
-        with:
-          allure_results: allure-results
-          allure_history: allure-history
-
-      - name: Deploy report to Github Pages
-        if: always()
-        uses: peaceiris/actions-gh-pages@v2
+          ALLURE_ENDPOINT: https://demo.testops.cloud/
+          ALLURE_PROJECT_ID: ${{ github.event.inputs.ALLURE_PROJECT_ID}}
+          ALLURE_TOKEN: ${{ secrets.ALLURECHATALYANDEMO }}
+          
+      - name: Run tests
+        run: allurectl watch -- pytest --alluredir=${ALLURE_RESULTS} --capture=no
         env:
-          PERSONAL_TOKEN: ${{ secrets.GitHub }}
-          PUBLISH_BRANCH: gh-pages
-          PUBLISH_DIR: allure-history
+          ENDPOINT: ${{ github.event.inputs.ENDPOINT}}
+          BROWSER: ${{ github.event.inputs.BROWSER}}
+          OS: ${{ github.event.inputs.OS}}
+          ALLURE_JOB_RUN_ID: ${{ github.event.inputs.ALLURE_JOB_RUN_ID }}
+          ALLURE_TESTPLAN_PATH: "./testplan.json"
+          ALLURE_RESULTS: "allure-results"
