@@ -23,8 +23,8 @@ on:
         default: macOS 
 
 env:
-  ALLURE_ENDPOINT: https://qameta.testops.cloud/
-  ALLURE_PROJECT_ID: 2001
+  ALLURE_ENDPOINT: https://testing.allure.aws.qameta.in/
+  ALLURE_PROJECT_ID: 2314
   ALLURE_TOKEN: ${{ secrets.ALLURE_TOKEN }}
   ALLURE_JOB_RUN_ID: ${{ github.event.inputs.ALLURE_JOB_RUN_ID }}
   ALLURE_TESTPLAN_PATH: "./testplan.json"
@@ -50,7 +50,7 @@ jobs:
       - name: Install allurectl
         uses: allure-framework/setup-allurectl@v1
         with:
-          ALLURE_ENDPOINT: https://demo.testops.cloud/
+          ALLURE_ENDPOINT: https://testing.allure.aws.qameta.in/
           ALLURE_PROJECT_ID: ${{ github.event.inputs.ALLURE_PROJECT_ID}}
           ALLURE_TOKEN: ${{ secrets.ALLURECHATALYANDEMO }}
           
