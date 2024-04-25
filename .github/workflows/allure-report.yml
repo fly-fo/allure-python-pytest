@@ -6,9 +6,6 @@ on:
       ALLURE_JOB_RUN_ID:
         description: ALLURE_JOB_RUN_ID - service parameter (leave blank)
         required: false
-      ALLURE_USERNAME:
-        description: ALLURE_USERNAME - service parameter (leave blank)
-        required: false
       ENDPOINT:
         description: Endpoint
         required: false
@@ -49,9 +46,9 @@ jobs:
       - name: Install allurectl
         uses: allure-framework/setup-allurectl@v1
         with:
-          ALLURE_ENDPOINT: https://testing.allure.aws.qameta.in/
-          ALLURE_PROJECT_ID: ${{ github.event.inputs.ALLURE_PROJECT_ID}}
-          ALLURE_TOKEN: ${{ secrets.ALLURECHATALYANDEMO }}
+          allure-endpoint: https://testing.allure.aws.qameta.in/
+          allure-token: ${{ secrets.ALLURECHATALYANDEMO }}
+          allure-project-id: 2314
           
       - name: Run tests
         run: allurectl watch -- pytest --alluredir=${ALLURE_RESULTS} --capture=no
@@ -60,5 +57,4 @@ jobs:
           BROWSER: ${{ github.event.inputs.BROWSER}}
           OS: ${{ github.event.inputs.OS}}
           ALLURE_JOB_RUN_ID: ${{ github.event.inputs.ALLURE_JOB_RUN_ID }}
-          ALLURE_TESTPLAN_PATH: "./testplan.json"
           ALLURE_RESULTS: "allure-results"
