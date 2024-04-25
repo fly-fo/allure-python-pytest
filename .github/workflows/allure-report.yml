@@ -18,6 +18,9 @@ on:
         description: OS
         required: false
         default: macOS 
+      ALLURE_USERNAME:
+        description: "ALLURE_USERNAME service parameter. Leave blank"
+        required: false
 
 env:
   ALLURE_ENDPOINT: https://testing.allure.aws.qameta.in/
