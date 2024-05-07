@@ -23,7 +23,7 @@ on:
         required: false
 
 env:
-  ALLURE_ENDPOINT: https://testing.allure.aws.qameta.in/
+  ALLURE_ENDPOINT: https://testing.testops.cloud/
   ALLURE_PROJECT_ID: 2314
   ALLURE_TOKEN: ${{ secrets.ALLURE_TOKEN }}
   ALLURE_JOB_RUN_ID: ${{ github.event.inputs.ALLURE_JOB_RUN_ID }}
@@ -49,7 +49,7 @@ jobs:
       - name: Install allurectl
         uses: allure-framework/setup-allurectl@v1
         with:
-          allure-endpoint: https://testing.allure.aws.qameta.in/
+          allure-endpoint: https://testing.testops.cloud/
           allure-token: ${{ secrets.ALLURECHATALYANDEMO }}
           allure-project-id: 2314
           
