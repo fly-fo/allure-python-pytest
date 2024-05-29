@@ -23,8 +23,8 @@ on:
         required: false
 
 env:
-  ALLURE_ENDPOINT: https://testing.testops.cloud/
-  ALLURE_PROJECT_ID: 2314
+  ALLURE_ENDPOINT: https://demo.testops.cloud/
+  ALLURE_PROJECT_ID: 1790
   ALLURE_TOKEN: ${{ secrets.ALLURE_TOKEN }}
   ALLURE_JOB_RUN_ID: ${{ github.event.inputs.ALLURE_JOB_RUN_ID }}
   ALLURE_RESULTS: "allure-results"
@@ -50,8 +50,8 @@ jobs:
         uses: allure-framework/setup-allurectl@v1
         with:
           allure-endpoint: https://testing.testops.cloud/
-          allure-token: ${{ secrets.ALLURECHATALYANDEMO }}
-          allure-project-id: 2314
+          allure-token: ${{ secrets.ALLURE_TOKEN }}
+          allure-project-id: 1790
           
       - name: Run tests
         run: allurectl watch -- pytest --alluredir=${ALLURE_RESULTS} --capture=no
