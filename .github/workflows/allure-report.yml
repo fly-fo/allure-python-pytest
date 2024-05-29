@@ -2,7 +2,7 @@ name: Allure Testops
 
 on:
   schedule:
-    - cron: "0 11 * * *"
+    - cron: "0 08 * * *"
   workflow_dispatch:
     inputs:
       ALLURE_JOB_RUN_ID:
