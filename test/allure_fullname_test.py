@@ -1,7 +1,12 @@
 import pytest
 from allure_commons.reporter import AllureReporter
 from allure_pytest.listener import AllureListener
+from allure_commons.types import Severity
 
+
+@allure.epic("Allure TestOps")
+@allure.feature("Google search")
+@allure.story("The cutest animal")
 
 @pytest.fixture()
 def allure_reporter(request) -> AllureReporter:
