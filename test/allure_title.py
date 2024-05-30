@@ -1,6 +1,5 @@
 import allure
 import pytest
-import allure
 from allure import attachment_type
 from allure_commons.types import Severity
 
