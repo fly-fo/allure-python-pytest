@@ -3,12 +3,12 @@ from allure_commons.reporter import AllureReporter
 from allure_pytest.listener import AllureListener
 
 import allure
+from allure import attachment_type
 from allure_commons.types import Severity
 
-
 @allure.epic("Allure TestOps")
-@allure.feature("Google search")
-@allure.story("The cutest animal")
+@allure.feature("Attachments")
+@allure.story("Add atachment")
 
 @pytest.fixture()
 def allure_reporter(request) -> AllureReporter:
