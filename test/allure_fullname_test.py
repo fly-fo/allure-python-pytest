@@ -1,13 +1,7 @@
 import pytest
-import allure
 from allure_commons.reporter import AllureReporter
 from allure_pytest.listener import AllureListener
-from allure import attachment_type
-from allure_commons.types import Severity
 
-@allure.epic("Allure TestOps")
-@allure.feature("Attachments")
-@allure.story("Add atachment")
 
 @pytest.fixture()
 def allure_reporter(request) -> AllureReporter:
