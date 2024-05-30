@@ -1,4 +1,5 @@
 import pytest
+import allure
 from allure_commons.reporter import AllureReporter
 from allure_pytest.listener import AllureListener
 from allure_commons.types import Severity
