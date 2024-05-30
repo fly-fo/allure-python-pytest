@@ -4,8 +4,8 @@ from allure import attachment_type
 from allure_commons.types import Severity
 
 @allure.epic("Allure TestOps")
-@allure.feature("Attachments")
-@allure.story("Add atachment")
+@allure.feature("Google search")
+@allure.story("The cutest animal")
 
 def test_passed():
     pass
