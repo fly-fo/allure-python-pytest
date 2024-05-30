@@ -1,6 +1,12 @@
 import allure
 import pytest
+import allure
+from allure import attachment_type
+from allure_commons.types import Severity
 
+@allure.epic("Allure TestOps")
+@allure.feature("Attachments")
+@allure.story("Add atachment")
 
 @allure.title("Some title for test")
 def test_with_title():
