@@ -1,0 +1,32 @@
+import unittest
+
+class FakeTest(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        print("\n[SetupClass] Preparing resources for the fake test...")
+
+    @classmethod
+    def tearDownClass(cls):
+        print("\n[TearDownClass] Cleaning up resources after the fake test...")
+
+    def setUp(self):
+        print("\n[Setup] Setting up before a test...")
+
+    def tearDown(self):
+        print("\n[TearDown] Tidying up after a test...")
+
+    def test_step1(self):
+        print("[Test Step 1] Performing test step 1...")
+        self.assertTrue(True, "Step 1 passed")
+
+    def test_step2(self):
+        print("[Test Step 2] Performing test step 2...")
+        self.assertEqual(1 + 1, 2, "Step 2 passed")
+
+    def test_step3(self):
+        print("[Test Step 3] Performing test step 3...")
+        self.assertIn("a", "apple", "Step 3 passed")
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)
