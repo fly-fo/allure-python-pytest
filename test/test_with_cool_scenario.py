@@ -1,5 +1,7 @@
 import pytest
 import allure
+from allure_commons.reporter import AllureReporter
+from allure_pytest.listener import AllureListener
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
