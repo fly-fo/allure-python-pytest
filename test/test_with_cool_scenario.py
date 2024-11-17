@@ -1,108 +1,69 @@
 import pytest
+import requests
 import allure
 from allure_commons.reporter import AllureReporter
 from allure_pytest.listener import AllureListener
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-
-@allure.epic("Allure TestOps")
-@allure.feature("Attachments")
-@allure.story("Add atachment")
-
 
 @pytest.fixture
-def browser():
-    driver = webdriver.Chrome()  # Ensure you have the ChromeDriver installed and configured
-    driver.maximize_window()
-    yield driver
-    driver.quit()
+def api_session():
+    """Fixture to provide a session for making requests."""
+    session = requests.Session()
+    yield session
+    session.close()
 
 
 @allure.feature("Order Checkout")
 @allure.story("Successful order placement with valid data")
-def test_order_checkout(browser):
+def test_order_checkout(api_session):
     # Constants and test data
-    base_url = "https://example.com"  # Replace with your application URL
+    base_url = "https://example.com/api"  # Replace with your API base URL
+    login_endpoint = f"{base_url}/login"
+    search_endpoint = f"{base_url}/products/search"
+    cart_endpoint = f"{base_url}/cart"
+    checkout_endpoint = f"{base_url}/checkout"
+
     username = "test_user"
     password = "Test1234!"
     search_query = "Test Product"
-    customer_name = "Иван Иванов"
-    phone = "+7 900 123-45-67"
-    address = "Москва, ул. Тестовая, д.1, кв.1"
-    email = "test@example.com"
+    customer_data = {
+        "name": "Иван Иванов",
+        "phone": "+7 900 123-45-67",
+        "address": "Москва, ул. Тестовая, д.1, кв.1",
+        "email": "test@example.com",
+        "payment_method": "card",
+    }
 
     with allure.step("Log in to the application"):
-        browser.get(f"{base_url}/login")
-        browser.find_element(By.ID, "username").send_keys(username)
-        browser.find_element(By.ID, "password").send_keys(password)
-        browser.find_element(By.ID, "login-button").click()
-
-        # Verify login was successful
-        WebDriverWait(browser, 10).until(
-            EC.presence_of_element_located((By.ID, "user-profile"))
-        )
-        allure.attach(
-            browser.get_screenshot_as_png(),
-            name="Login Successful",
-            attachment_type=allure.attachment_type.PNG,
-        )
+        login_payload = {"username": username, "password": password}
+        response = api_session.post(login_endpoint, json=login_payload)
+        assert response.status_code == 200, "Login failed"
+        token = response.json().get("token")
+        assert token, "Authentication token not received"
+        api_session.headers.update({"Authorization": f"Bearer {token}"})
+        allure.attach(str(response.json()), name="Login Response", attachment_type=allure.attachment_type.JSON)
 
     with allure.step("Search for the product"):
-        search_box = browser.find_element(By.ID, "search")
-        search_box.send_keys(search_query)
-        search_box.send_keys(Keys.RETURN)
-
-        # Verify product is displayed in search results
-        WebDriverWait(browser, 10).until(
-            EC.presence_of_element_located((By.CLASS_NAME, "product-item"))
-        )
-        browser.find_element(By.CLASS_NAME, "product-item").click()
-        allure.attach(
-            browser.get_screenshot_as_png(),
-            name="Product Found",
-            attachment_type=allure.attachment_type.PNG,
-        )
+        search_params = {"query": search_query}
+        response = api_session.get(search_endpoint, params=search_params)
+        assert response.status_code == 200, "Product search failed"
+        products = response.json().get("products", [])
+        assert products, "No products found"
+        product_id = products[0]["id"]
+        allure.attach(str(response.json()), name="Search Response", attachment_type=allure.attachment_type.JSON)
 
     with allure.step("Add the product to the cart"):
-        browser.find_element(By.ID, "add-to-cart-button").click()
+        cart_payload = {"product_id": product_id, "quantity": 1}
+        response = api_session.post(cart_endpoint, json=cart_payload)
+        assert response.status_code == 200, "Adding to cart failed"
+        cart = response.json().get("cart", {})
+        assert len(cart.get("items", [])) > 0, "Cart is empty"
+        allure.attach(str(response.json()), name="Cart Response", attachment_type=allure.attachment_type.JSON)
 
-        # Verify product is added to the cart
-        browser.get(f"{base_url}/cart")
-        cart_items = browser.find_elements(By.CLASS_NAME, "cart-item")
-        assert len(cart_items) > 0, "Cart is empty, but it should contain the added product."
-        allure.attach(
-            browser.get_screenshot_as_png(),
-            name="Cart Contents",
-            attachment_type=allure.attachment_type.PNG,
-        )
+    with allure.step("Proceed to checkout and place the order"):
+        checkout_payload = {"customer": customer_data}
+        response = api_session.post(checkout_endpoint, json=checkout_payload)
+        assert response.status_code == 200, "Checkout failed"
+        order_confirmation = response.json()
+        assert "order_id" in order_confirmation, "Order confirmation missing order_id"
+        allure.attach(str(response.json()), name="Checkout Response", attachment_type=allure.attachment_type.JSON)
 
-    with allure.step("Proceed to checkout"):
-        browser.find_element(By.ID, "checkout-button").click()
-
-        # Verify checkout page is displayed
-        WebDriverWait(browser, 10).until(
-            EC.presence_of_element_located((By.ID, "checkout-form"))
-        )
-
-    with allure.step("Fill out the checkout form and place the order"):
-        browser.find_element(By.ID, "customer-name").send_keys(customer_name)
-        browser.find_element(By.ID, "customer-phone").send_keys(phone)
-        browser.find_element(By.ID, "customer-address").send_keys(address)
-        browser.find_element(By.ID, "customer-email").send_keys(email)
-        browser.find_element(By.ID, "payment-method-card").click()
-        browser.find_element(By.ID, "confirm-order-button").click()
-
-        # Verify order confirmation
-        WebDriverWait(browser, 10).until(
-            EC.presence_of_element_located((By.CLASS_NAME, "order-confirmation"))
-        )
-        confirmation_message = browser.find_element(By.CLASS_NAME, "order-confirmation").text
-        assert "Спасибо за ваш заказ" in confirmation_message, "Order confirmation not displayed."
-        allure.attach(
-            browser.get_screenshot_as_png(),
-            name="Order Confirmation",
-            attachment_type=allure.attachment_type.PNG,
-        )
