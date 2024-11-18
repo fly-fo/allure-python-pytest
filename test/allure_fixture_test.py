@@ -1,7 +1,7 @@
 import allure
 import pytest
 
-
+@allure.tag("For_testplan")
 @allure.title("Fixture title")
 @pytest.fixture
 def titled_fixture():
