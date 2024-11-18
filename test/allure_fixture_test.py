@@ -1,7 +1,7 @@
 import allure
 import pytest
 
-@allure.layer("Unit Tests")
+@allure.label("layer", "Unit Tests")
 @allure.title("Fixture title")
 @pytest.fixture
 def titled_fixture():
