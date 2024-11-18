@@ -1,7 +1,7 @@
 import allure
 import pytest
 
-@allure.layer("Unit Tests")
+@allure.severity(Severity.CRITICAL)
 @allure.title("Fixture title")
 @pytest.fixture
 def titled_fixture():
