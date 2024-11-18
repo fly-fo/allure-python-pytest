@@ -67,3 +67,21 @@ def test_order_checkout():
         allure.attach(str(checkout_response), name="Checkout Response", attachment_type=allure.attachment_type.JSON)
 
 
+
+@allure.id(295)
+@allure.feature("Google search")
+@allure.label("owner", "Ольга Ч")
+@allure.title("Поиск катринки с квоккой")
+def test_poisk_katrinki_s_kvokkoj():
+    with allure.step("Найти поисковую строку на главной странице ya.ru"):
+        with allure.step("Attachment [87]"):
+            pass
+        pass
+
+    with allure.step("Ввести текст \"Квокка фото\""):
+        pass
+
+    with allure.step("На клавиатуре нажать \"Enter\""):
+        pass
+    pass
+
