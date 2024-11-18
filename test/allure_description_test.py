@@ -19,7 +19,7 @@ Scenario:
   """)
 def test_decorated_description():
     pass
-
+@allure.layer("unit_test")
 
 @allure.description_html("""
 This is <b>HTML</b> test description
