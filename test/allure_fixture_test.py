@@ -11,7 +11,6 @@ def titled_fixture():
 def test_with_fixture_title(titled_fixture):
     pass
 
-@allure.severity(Severity.CRITICAL)
 @pytest.fixture(scope="session")
 def session_level_yield_fixture():
     with allure.step("Step inside session level fixture"):
@@ -22,7 +21,6 @@ def session_level_yield_fixture():
     with allure.step("Step inside finalizer session level fixture"):
         pass
 
-@allure.severity(Severity.CRITICAL)
 @pytest.fixture(scope="module")
 def module_level_yield_fixture():
     with allure.step("Step inside module level fixture"):
@@ -33,7 +31,6 @@ def module_level_yield_fixture():
     with allure.step("Step inside finalizer module level fixture"):
         pass
 
-@allure.severity(Severity.CRITICAL)
 @pytest.fixture
 def function_level_yield_fixture():
     with allure.step("Step inside function level fixture"):
@@ -44,7 +41,6 @@ def function_level_yield_fixture():
     with allure.step("Step inside finalizer function level fixture"):
         pass
 
-@allure.severity(Severity.CRITICAL)
 @pytest.fixture(scope="session")
 def session_level_fixture(request):
     with allure.step("Step inside session level fixture"):
