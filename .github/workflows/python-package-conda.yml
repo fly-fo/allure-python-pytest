@@ -25,15 +25,14 @@ on:
         required: false
 
 env:
-  ALLURE_ENDPOINT: https://demo.qatools.cloud/
-  ALLURE_PROJECT_ID: 4535
-  ALLURE_TOKEN: ${{ secrets.TESTOPS_TOKEN }}
-  ALLURE_JOB_RUN_ID: ${{ github.event.inputs.ALLURE_JOB_RUN_ID }}
-  ALLURE_RESULTS: "allure-results"
+  ALLURE_ENDPOINT: https://demo.qatools.cloud/  # Make sure this matches your real endpoint
+  ALLURE_PROJECT_ID: 4535                       # Your actual Allure project ID
+  ALLURE_TOKEN: ${{ secrets.TESTOPS_TOKEN }}    # Secret with correct permissions
+  ALLURE_RESULTS: allure-results
 
 jobs:
   autotests: 
-    name: Run tests
+    name: Run tests and upload to Allure
     runs-on: ubuntu-latest
 
     steps:
@@ -48,7 +47,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install allure-pytest  # Ensure allure plugin is installed
+          pip install allure-pytest
 
       - name: Check versions
         run: |
@@ -58,9 +57,9 @@ jobs:
       - name: Install allurectl
         uses: allure-framework/setup-allurectl@v1
         with:
-          allure-endpoint: https://demo.qatools.cloud/
-          allure-token: ${{ secrets.TESTOPS_TOKEN }}
-          allure-project-id: 4535
+          allure-endpoint: ${{ env.ALLURE_ENDPOINT }}
+          allure-token: ${{ env.ALLURE_TOKEN }}
+          allure-project-id: ${{ env.ALLURE_PROJECT_ID }}
 
       - name: Show environment values
         run: |
@@ -68,19 +67,27 @@ jobs:
           echo "Browser: $BROWSER"
           echo "OS: $OS"
           echo "Allure Job ID: ${ALLURE_JOB_RUN_ID:-manual-run}"
-
-      - name: Run tests with Allure
-        run: |
-          allurectl watch -- pytest --alluredir=${ALLURE_RESULTS} --capture=no
-        continue-on-error: true  # Allows workflow to continue even if tests fail
         env:
           ENDPOINT: ${{ github.event.inputs.ENDPOINT }}
           BROWSER: ${{ github.event.inputs.BROWSER }}
           OS: ${{ github.event.inputs.OS }}
           ALLURE_JOB_RUN_ID: ${{ github.event.inputs.ALLURE_JOB_RUN_ID }}
-          ALLURE_RESULTS: "allure-results"
+
+      - name: Run tests with pytest
+        run: |
+          pytest --alluredir=${ALLURE_RESULTS} --capture=no
+        env:
+          ENDPOINT: ${{ github.event.inputs.ENDPOINT }}
+          BROWSER: ${{ github.event.inputs.BROWSER }}
+          OS: ${{ github.event.inputs.OS }}
 
       - name: Debug allure results
         run: |
-          echo "Checking contents of allure-results directory..."
-          ls -la ${ALLURE_RESULTS} || echo "Directory not found"
+          echo "Contents of ${ALLURE_RESULTS} directory:"
+          ls -la ${ALLURE_RESULTS}
+
+      - name: Upload results to Allure TestOps
+        run: |
+          allurectl upload --results=${ALLURE_RESULTS} --debug
+        env:
+          ALLURE_JOB_RUN_ID: ${{ github.event.inputs.ALLURE_JOB_RUN_ID }}
