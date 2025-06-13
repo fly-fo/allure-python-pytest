@@ -11,7 +11,7 @@ on:
       ENDPOINT:
         description: Endpoint
         required: false
-        default: demo.qatools.cloud/
+        default: https://demo.testops.cloud/
       BROWSER:
         description: Browser
         required: false
