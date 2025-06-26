@@ -1,8 +1,8 @@
 name: Testops
 
 on:
-  schedule:
-    - cron: "0 */12 * * *"
+ # schedule:
+ #  - cron: "0 */12 * * *"
   workflow_dispatch:
     inputs:
       ALLURE_JOB_RUN_ID:
