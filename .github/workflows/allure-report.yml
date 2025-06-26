@@ -8,6 +8,10 @@ on:
       ALLURE_JOB_RUN_ID:
         description: ALLURE_JOB_RUN_ID - service parameter (leave blank)
         required: false
+      VERSION:
+        description: version
+        required: false
+        default: '5.16.0'
       ENDPOINT:
         description: Endpoint
         required: false
@@ -61,5 +65,7 @@ jobs:
           ENDPOINT: ${{ github.event.inputs.ENDPOINT}}
           BROWSER: ${{ github.event.inputs.BROWSER}}
           OS: ${{ github.event.inputs.OS}}
+          BRANCH: ${{ github.ref_name }}
+          VERSION: ${{ github.event.inputs.VERSION }}
           ALLURE_JOB_RUN_ID: ${{ github.event.inputs.ALLURE_JOB_RUN_ID }}
           ALLURE_RESULTS: "allure-results"
