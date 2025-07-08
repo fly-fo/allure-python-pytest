@@ -30,7 +30,7 @@ on:
 
 env:
   ALLURE_ENDPOINT: https://demo.testops.cloud/
-  ALLURE_PROJECT_ID: 4535
+  ALLURE_PROJECT_ID: 4601
   ALLURE_TOKEN: ${{ secrets.ALLURE_TOKEN }}
   ALLURE_JOB_RUN_ID: ${{ github.event.inputs.ALLURE_JOB_RUN_ID }}
   ALLURE_RESULTS: "allure-results"
@@ -57,7 +57,7 @@ jobs:
         with:
           allure-endpoint: https://demo.testops.cloud/
           allure-token: ${{ secrets.ALLURE_TOKEN }}
-          allure-project-id: 4535
+          allure-project-id: 4601
           
       - name: Run tests
         run: allurectl watch -- pytest --alluredir=${ALLURE_RESULTS} --capture=no
