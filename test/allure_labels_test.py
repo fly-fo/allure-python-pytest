@@ -4,19 +4,21 @@ import allure
 @allure.epic("Allure TestOps")
 @allure.feature("BDD")
 @allure.story("Labels")
-@allure.label("priority", "Critical")
+@allure.label("priority", "Low")
 def test_allure_bdd_labels():
     pass
 
 
 @allure.parent_suite("Custom parent suite")
 @allure.suite("Custom suite")
+@allure.label("priority", "Low")
 @allure.sub_suite("Custom sub suite")
 def test_allure_suites():
     pass
 
 
 @allure.label("allure-examples", "allure-pytest")
+@allure.label("priority", "Low")
 def test_allure_custom_labels():
     pass
 
