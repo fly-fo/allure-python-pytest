@@ -3,7 +3,6 @@ import os
 
 import allure
 from allure import attachment_type
-from allure_commons.types import Severity
 
 @allure.epic("Allure TestOps")
 @allure.feature("Attachments")
