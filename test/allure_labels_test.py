@@ -1,5 +1,4 @@
 import allure
-from allure_commons.types import Severity
 
 
 @allure.epic("Allure TestOps")
