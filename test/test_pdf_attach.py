@@ -8,6 +8,7 @@ import os
 @allure.feature("sending attachments")
 @allure.story("sending pdf attachments")
 @allure.title("Sending PDF attachments")
+@allure.label("priority", "Low")
 def test_pdf_attach():
     print("sending PDF attachment")
     time.sleep(5)
