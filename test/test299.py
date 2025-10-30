@@ -6,6 +6,7 @@ import pytest
 @allure.tag("Dynamic tag")
 @allure.title("Тест для показа автоматизации")
 @allure.label("owner", "Ольга Ч")
+@allure.label("priority", "High")
 @allure.feature("sending attachments", "test-automation")
 def test_method():
     with allure.step("Сначала мы создаём ручной тест"):
