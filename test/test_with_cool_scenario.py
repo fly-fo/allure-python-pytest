@@ -29,6 +29,7 @@ def checkout(cart, customer_data):
 
 
 @allure.feature("Order Checkout")
+@allure.label("priority", "Medium")
 @allure.story("Successful order placement with valid data")
 def test_order_checkout():
     username = "test_user"
@@ -70,6 +71,7 @@ def test_order_checkout():
 
 @allure.id(295)
 @allure.feature("Google search")
+@allure.label("priority", "Low")
 @allure.label("owner", "Ольга Ч")
 @allure.title("Поиск катринки с квоккой")
 def test_poisk_katrinki_s_kvokkoj():
