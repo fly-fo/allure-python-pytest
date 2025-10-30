@@ -22,26 +22,26 @@ def test_allure_suites():
 def test_allure_custom_labels():
     pass
 
-
+@allure.label("priority", "Low")
 def test_dynamic_labels():
     allure.dynamic.label("test-image", "some-image:latest")
 
 
-@allure.severity(Severity.CRITICAL)
+@allure.label("priority", "Low")
 def test_allure_severity():
     pass
 
-
+@allure.label("priority", "High")
 @allure.tag("Tagged test")
 def test_allure_tags():
     allure.dynamic.tag("Dynamic tag")
 
-
+@allure.label("priority", "Low")
 @allure.label("owner", "admin")
 def test_owner():
     pass
 
-
+@allure.label("priority", "Low")
 @allure.id(123)
 def test_allure_id():
     pass
