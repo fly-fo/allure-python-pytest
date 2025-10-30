@@ -1,5 +1,6 @@
 import allure
 
+@allure.label("priority", "Medium")
 
 @allure.step
 def step_function_with_args(arg1, arg2):
