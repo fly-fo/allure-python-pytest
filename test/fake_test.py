@@ -2,7 +2,6 @@ import unittest
 import allure
 import pytest
 from allure import attachment_type
-from allure_commons.types import Severity
 import pytest
 
 @allure.label("priority", "Medium")
