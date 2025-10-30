@@ -1,5 +1,6 @@
 import allure
 
+@allure.label("priority", "Medium")
 
 def test_docstring_description():
     """
