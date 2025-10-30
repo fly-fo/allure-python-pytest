@@ -3,6 +3,7 @@ import pytest
 
 @allure.tag("For_testplan")
 @allure.title("Fixture title")
+@allure.label("priority", "High")
 @pytest.fixture
 def titled_fixture():
     pass
