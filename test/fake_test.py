@@ -4,7 +4,9 @@ import pytest
 from allure import attachment_type
 import pytest
 
-@allure.label("priority", "Medium")
+@pytest.fixture(autouse=True)
+def apply_priority_label():
+    allure.dynamic.label("priority", "Medium")
 
 @pytest.fixture(scope="module")
 def setup_module():
