@@ -1,3 +1,4 @@
+import allure
 import pytest
 from allure_commons.reporter import AllureReporter
 from allure_pytest.listener import AllureListener
