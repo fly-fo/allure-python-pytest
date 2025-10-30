@@ -5,6 +5,8 @@ from allure import attachment_type
 from allure_commons.types import Severity
 import pytest
 
+@allure.label("priority", "Medium")
+
 @pytest.fixture(scope="module")
 def setup_module():
     print("\n[Setup Module] Preparing resources for the fake test...")
