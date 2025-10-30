@@ -2,6 +2,7 @@ import pytest
 from allure_commons.reporter import AllureReporter
 from allure_pytest.listener import AllureListener
 
+@allure.label("priority", "Medium")
 
 @pytest.fixture()
 def allure_reporter(request) -> AllureReporter:
