@@ -5,6 +5,7 @@ import allure
 @allure.link("https://github.com/allure-examples/", name="Allure Examples")
 @allure.issue("https://github.com/allure-examples/allure-examples/issues/1", name="ISSUE-1")
 @allure.testcase("https://github.com/allure-examples/allure-examples/issues/2", name="TESTCASE-2")
+@allure.label("priority", "Critical")
 def test_allure_links():
     pass
 
