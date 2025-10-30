@@ -6,6 +6,7 @@ from allure_commons.types import Severity
 @allure.epic("Allure TestOps")
 @allure.feature("Attachments")
 @allure.story("Add atachment")
+@allure.label("priority", "Medium")
 
 @allure.title("Some title for test")
 def test_with_title():
