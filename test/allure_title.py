@@ -11,13 +11,13 @@ from allure import attachment_type
 def test_with_title():
     pass
 
-
+@allure.label("priority", "High")
 @allure.title("Test title with param {param}")
 @pytest.mark.parametrize("param", ["first", "second"])
 def test_with_dynamic_title(param):
     pass
 
-
+@allure.label("priority", "Medium")
 @allure.title("Fixture title")
 @pytest.fixture()
 def titled_fixture():
