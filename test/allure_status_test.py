@@ -6,6 +6,7 @@ from allure_commons.types import Severity
 @allure.epic("Allure TestOps")
 @allure.feature("Google search")
 @allure.story("The cutest animal")
+@allure.label("priority", "High")
 
 def test_passed():
     pass
