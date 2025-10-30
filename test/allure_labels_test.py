@@ -5,6 +5,7 @@ from allure_commons.types import Severity
 @allure.epic("Allure TestOps")
 @allure.feature("BDD")
 @allure.story("Labels")
+@allure.label("priority", "Critical")
 def test_allure_bdd_labels():
     pass
 
