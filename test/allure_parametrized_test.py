@@ -17,6 +17,6 @@ def parametrized_fixture(request):
     with allure.step(f"Fixture parameter: {request.param}"):
         pass
 
-
+@allure.label("priority", "Low")
 def test_allure_parametrized_fixture(parametrized_fixture):
     pass
