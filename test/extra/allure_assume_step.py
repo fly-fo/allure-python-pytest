@@ -5,6 +5,7 @@ import allure
 import pytest
 from _pytest.outcomes import Skipped
 
+@allure.label("priority", "Low")
 
 def assume_step(title, exception=None):
     """
