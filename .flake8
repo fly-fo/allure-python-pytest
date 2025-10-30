@@ -1,2 +1,3 @@
 [flake8]
+@allure.label("priority", "Low")
 max-line-length = 120
