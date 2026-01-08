@@ -1,48 +1,19 @@
 version: 2.1
 
-parameters:
-  ALLURE_JOB_RUN_ID:
-    type: string
-    default: ""
-  VERSION:
-    type: string
-    default: "5.16.0"
-  ENDPOINT:
-    type: string
-    default: "https://demo.testops.cloud/"
-  BROWSER:
-    type: string
-    default: "Opera"
-  OS:
-    type: string
-    default: "macOS"
-  ALLURE_USERNAME:
-    type: string
-    default: ""
-
 jobs:
   pytest-allure:
     docker:
       - image: cimg/python:3.12
-
-    working_directory: ~/project
-
     environment:
-      ALLURE_ENDPOINT: << pipeline.parameters.ENDPOINT >>
+      ALLURE_ENDPOINT: "https://demo.testops.cloud/"
       ALLURE_PROJECT_ID: "4601"
-      ALLURE_TOKEN: "${ALLURE_TOKEN}"
       ALLURE_RESULTS: "allure-results"
-      ALLURE_JOB_RUN_ID: << pipeline.parameters.ALLURE_JOB_RUN_ID >>
 
     steps:
       - checkout
 
       - run:
-          name: Show environment (debug)
-          command: printenv
-
-      - run:
-          name: Upgrade pip & install deps
+          name: Install deps
           command: |
             python -m pip install --upgrade pip
             pip install -r requirements.txt
@@ -56,16 +27,11 @@ jobs:
       - run:
           name: Run pytest via allurectl
           command: |
-            export ENDPOINT="<< pipeline.parameters.ENDPOINT >>"
-            export BROWSER="<< pipeline.parameters.BROWSER >>"
-            export OS="<< pipeline.parameters.OS >>"
-            export BRANCH="${CIRCLE_BRANCH}"
-            export VERSION="<< pipeline.parameters.VERSION >>"
-            export ALLURE_JOB_RUN_ID="<< pipeline.parameters.ALLURE_JOB_RUN_ID >>"
-            # Optionally, use ALLURE_USERNAME if needed by your backend:
-            export ALLURE_USERNAME="<< pipeline.parameters.ALLURE_USERNAME >>"
-
-            ./allurectl watch -- pytest --alluredir="${ALLURE_RESULTS}" --capture=no
+            ./allurectl watch \
+              --endpoint "${ALLURE_ENDPOINT}" \
+              --project-id "${ALLURE_PROJECT_ID}" \
+              --token "${ALLURE_TOKEN}" \
+              -- pytest --alluredir="${ALLURE_RESULTS}" --capture=no
 
 workflows:
   version: 2
